@@ -18,7 +18,7 @@ public abstract class AbstractEmailService implements EmailService {
 
     protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(pedido.getCliente().getEmail());
+        simpleMailMessage.setTo(sender);
         simpleMailMessage.setFrom(sender);
         simpleMailMessage.setSubject("Pedido confirmado! Id do pedido " + pedido.getId());
         simpleMailMessage.setText(pedido.toString());
