@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -21,8 +22,8 @@ public class PedidoResource {
         return ResponseEntity.ok().body(pedido);
     }
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Pedido pedido) {
-        pedidoService.insert(pedido);
+    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido pedido) {
+        pedido = pedidoService.insert(pedido);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").buildAndExpand(pedido.getId()).toUri();
         return ResponseEntity.created(uri).build();

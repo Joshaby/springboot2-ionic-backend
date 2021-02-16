@@ -2,6 +2,7 @@ package com.nelioalves.cursomc.config;
 
 import com.nelioalves.cursomc.services.DataBaseService;
 import com.nelioalves.cursomc.services.EmailService;
+import com.nelioalves.cursomc.services.MockEmailService;
 import com.nelioalves.cursomc.services.SMTPEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +22,11 @@ public class DevConfig {
 
     @Bean
     public boolean initializeMariaDB() throws ParseException {
-        dataBaseService.initializeDataBase();
-        return true;
+        if (strategy.equals("create")) {
+            dataBaseService.initializeDataBase();
+            return true;
+        }
+        return false;
     }
 
     @Bean

@@ -25,7 +25,7 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "ENDERECO")
     private Endereco endereco;
     @OneToMany(mappedBy = "id.pedido")
-    private Set<ItemPedido> itemPedidoSet = new HashSet<>();
+    private Set<ItemPedido> itensPedidoSet = new HashSet<>();
 
     public Pedido(Integer id, Date instante, Cliente cliente, Endereco endereco) {
         this.id = id;
@@ -67,15 +67,15 @@ public class Pedido implements Serializable {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    public Set<ItemPedido> getItemPedidoSet() {
-        return itemPedidoSet;
+    public Set<ItemPedido> getItensPedidoSet() {
+        return itensPedidoSet;
     }
-    public void setItemPedidoSet(Set<ItemPedido> itemPedidoSet) {
-        this.itemPedidoSet = itemPedidoSet;
+    public void setItensPedidoSet(Set<ItemPedido> itensPedidoSet) {
+        this.itensPedidoSet = itensPedidoSet;
     }
     public Double getTotalPedido() {
         Double result = 0.0;
-        for (ItemPedido itemPedido : getItemPedidoSet()) {
+        for (ItemPedido itemPedido : getItensPedidoSet()) {
             result += itemPedido.getSubtotal();
         }
         return result;
@@ -102,8 +102,8 @@ public class Pedido implements Serializable {
         stringBuilder.append(String.format("Cliente: %s\n", getCliente().getNome()));
         stringBuilder.append(String.format("Situação: %s\n", getPagamento().getEstadoPagamento().getDescricao()));
         stringBuilder.append("Detalhes: \n");
-        for (ItemPedido itemPedido : itemPedidoSet) {
-            stringBuilder.append(itemPedido.toString() + "\n");
+        for (ItemPedido itemPedido : itensPedidoSet) {
+            stringBuilder.append(itemPedido.toString()).append("\n");
         }
         stringBuilder.append(String.format("Valor total: %s\n", numberFormat.format(getTotalPedido())));
         return stringBuilder.toString();

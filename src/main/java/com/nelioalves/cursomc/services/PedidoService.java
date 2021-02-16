@@ -48,16 +48,17 @@ public class PedidoService {
             PagamentoComBoleto pagamentoComBoleto = (PagamentoComBoleto) pedido.getPagamento();
             boletoService.generateDueDate(pagamentoComBoleto, pedido.getInstante());
         }
-        pedidoRepository.save(pedido);
+        pedido = pedidoRepository.save(pedido);
         pagamentoRepository.save(pedido.getPagamento());
-        for (ItemPedido itemPedido : pedido.getItemPedidoSet()) {
+        for (ItemPedido itemPedido : pedido.getItensPedidoSet()) {
             itemPedido.setDesconto(0.0);
             itemPedido.setProduto(produtoService.find(itemPedido.getProduto().getId()));
             itemPedido.setPreco(itemPedido.getProduto().getPreco());
             itemPedido.setPedido(pedido);
         }
-        itemPedidoRepository.saveAll(pedido.getItemPedidoSet());
-        emailService.sendOrderConfirmationEmail(pedido);
+        itemPedidoRepository.saveAll(pedido.getItensPedidoSet());
+        System.out.println(pedido);
+        emailService.sendOrderConfirmationHtmlEmail(pedido);
         return pedido;
     }
 }
