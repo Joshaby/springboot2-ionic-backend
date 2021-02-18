@@ -1,20 +1,20 @@
 package com.nelioalves.cursomc.domain;
 
-import javax.persistence.*;
+import javax.persistence.*; // Libs do JPA!
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity //Usado para informar que a classe irá virar um entidade de um tabela de mesmo nome da classe
 public class Categoria implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; // indentificador usado para serializar ou desserializar um objeto de uma classe que implementa a interface Serializable. Usado para verificar compatibilidade entre uma classe e um objeto serializado
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id // Usado para atruibuir um ID a entidade, que vai ser um chave primária
+    @GeneratedValue(strategy=GenerationType.IDENTITY) // método de geração do ID, será usado autoincremento para geração dos números
     private Integer id;
     private String nome;
-    @ManyToMany(mappedBy = "categoriasList")
+    @ManyToMany(mappedBy = "categoriasList") // método usado para fazer relacionamento muitos para muitos, que já foi mapeado por outra classe, que foi a Produto usando seu atribúto categoriaList
     private List<Produto> produtosList = new ArrayList<>();
 
     public Categoria(Integer id, String nome) {

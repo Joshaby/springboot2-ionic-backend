@@ -1,27 +1,27 @@
 package com.nelioalves.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
+import javax.persistence.*; //Libs do JPA
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
+@Entity // Usado para informar que a classe irá virar um entidade em um tabela com mesmo nome da classe
 public class Produto implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; // indentificador de serialização e desserialização usado para verificar compatibilidade e versionamento entre objeto serializado e uma classe desse objeto que implementa a interface Serializable
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Usado para atribuir um ID a entidadade, que será um chave primária
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // método de geração do ID que será baseado no autoincremento do BD
     private Integer id;
     private String nome;
     private Double preco;
-    @ManyToMany
-    @JoinTable(name = "PRODUTO_CATEGORIA",
-            joinColumns = @JoinColumn(name = "produto_id"),
-            inverseJoinColumns = @JoinColumn(name = "categoria_ID")
+    @ManyToMany // definição de que a classe Produto tem relacionamento muitos para muitos com Categoria, e isso em conceitos de BD, é necessário a criação de uma tabela! Relacionamento é feito encima do atribúto categoriaList
+    @JoinTable(name = "PRODUTO_CATEGORIA", //nome de tabela
+            joinColumns = @JoinColumn(name = "produto_id"), //nome da coluna que vai conter os IDs do produtos
+            inverseJoinColumns = @JoinColumn(name = "categoria_ID") // nome da coluna que vai conter os IDs das categorias
     )
-    private List<Categoria> categoriasList = new ArrayList<>();
-    @OneToMany(mappedBy = "id.produto")
+    private List<Categoria> categoriasList = new ArrayList<>(); // Atribúto de objeto que irá conter Categoria de um produto
+    @OneToMany(mappedBy = "id.produto") // método que indica que outra classe, ItemPedido, já fez o mapeamento, o relacionamento um para muitos. Mapeamento foi feito usando atribúto Produto do objeto ID de ItemPedido
     private Set<ItemPedido> itemPedidoSet = new HashSet<>();
 
     public Produto() {
